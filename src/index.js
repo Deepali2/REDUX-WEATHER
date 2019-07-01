@@ -1,26 +1,16 @@
-import React from "react";
-import thunk from "redux-thunk";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import ReduxPromise from "redux-promise";
-import rootReducer from "./reducers";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxPromise from 'redux-promise';
 
-import App from "./components/app";
-import reducers from "./reducers";
+import App from './components/app';
+import reducers from './reducers';
 
-// const store = applyMiddleware(ReduxPromise)(createStore);
-const store = createStore(
-  rootReducer,
-  compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={createStoreWithMiddleware(reducers)}>
     <App />
-  </Provider>,
-  document.querySelector(".container")
-);
+  </Provider>
+  , document.querySelector('.container'));
